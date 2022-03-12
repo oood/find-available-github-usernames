@@ -90,7 +90,7 @@ This will extract usernames that have the same letter repeated multiple times, l
 
 ### How can I exclude those `easy-to-remember` usernames from the full dictionary?
 ````
-comm -23 ./3-characters_AAA-ZZZ.txt ./3-characters_easy-to-remember_AAA-ZZZ.txt > ./easy-to-remember-excluded.txt
+comm -23 ./dictionary.txt ./easy-to-remember.txt > ./easy-to-remember-excluded.txt
 ````
 [[6](#6)]
 
