@@ -142,7 +142,7 @@ It should work fine with [WSL](https://docs.microsoft.com/en-us/windows/wsl/inst
 
 2. In the Preferences window, verify the following:
 
-    To view your GitHub username, click Accounts. [[8](#8)]
+     - To view your GitHub username, click Accounts. [[8](#8)]
 
 
 ### Is further support available?
