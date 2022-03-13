@@ -1,6 +1,6 @@
 # Hello World
 
-Hello world, this is my first repository, I wanted to share some stories of how I picked my GitHub username.
+:octocat: Hello world, this is my first repository, I wanted to share some stories of how I picked my GitHub username.
 
 
 
@@ -15,7 +15,7 @@ Because GitHub isn't exactly like social media, when you've built a lot of impor
 GitHub allows everyone to check user pages, I initially wrote a [script](https://github.com/oood/find-available-github-usernames/tree/main/script) and created some dictionaries with character combinations to check all URLs `https://github.com/$username`. this worked fine at first, but unfortunately after a few minutes I triggered an `Error: 429 Too many requests`, so I started searching to see if there was a better way, and I found that GitHub provides an API [[1]](#1) that can be used to retrieve registered username and available username, but I don't have an account how can I get an API token?
 
 
-There are two ways: First, register an account with any username, then get the API token and then find the appropriate username and modify it. Or bypass the restriction with proxies, which I know is rude, so I chose the first way.
+There are two ways: First, register an account with any username, then get the API token and then find the appropriate username and modify it. Or bypass the restriction with proxies :shipit:, which I know is rude, so I chose the first way.
 
 
 GitHub serves 5,000 requests per hour for users using the API [[1]](#1), which seems a bit low considering the short usernames that are still available from millions of usernames, but compared to only 60 requests per IP per hour without the API, that's a huge difference.
