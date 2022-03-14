@@ -152,6 +152,7 @@ No, I'm not going to use my time to continue developing and contributing to this
 
 
 ## References
+
 <a id="1">[1]</a> 
 https://docs.github.com/en/rest/overview/resources-in-the-rest-api
 
@@ -186,4 +187,5 @@ https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-gith
 
 
 ## License
+
 [![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://creativecommons.org/publicdomain/zero/1.0/)
