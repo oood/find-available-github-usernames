@@ -48,7 +48,7 @@ The working principle of the script is very simple, import the first line of the
 The reason for deleting the lines in the dictionary is to ensure that the task can be terminated at any time by pressing `^c` (Ctrl+C) in the terminal and don't have to start from the beginning on the next run.
 
 
-The first time the script is run, a backup file with a .bak suffix is generated for the dictionary.
+The first time the script is run, a backup file with a `.bak` suffix is generated for the dictionary.
 
 
 [Get dictionaries](https://github.com/oood/find-available-github-usernames/tree/main/dictionaries)
@@ -120,7 +120,7 @@ GitHub may for some reason keep some usernames that are not open for registratio
 ### How to check GitHub API remaining available requests?
 
 ````
-curl -i -u "$user$token" -H "Accept: application/vnd.github.v3+json" https://api.github.com/rate_limit
+curl -i -u "$USER$TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/rate_limit
 ````
 
 [[7](#7)]
