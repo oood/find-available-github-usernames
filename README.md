@@ -114,7 +114,7 @@ comm -23 ./dictionary.txt ./easy-to-remember.txt > ./easy-to-remember-excluded.t
 
 ### Why are some checked out usernames unavailable?
 
-GitHub may for some reason keep some usernames that are not open for registration, such as `34`, `fr`, `ccc`, although I found a lot of 2-character and 3-character usernames when I tried to register, but they were not available, but that doesn't mean you shouldn't try those 2 and 3-character usernames, because at any time a user could delete their account or change their username, so you might have better luck than me.
+GitHub may for some reason keep some usernames that are not open for registration, such as `47`, `fr`, `ccc`, although I found a lot of 2-character and 3-character usernames when I tried to register, but they were not available, but that doesn't mean you shouldn't try those 2 and 3-character usernames, because at any time a user could delete their account or change their username, so you might have better luck than me.
 
 
 ### How to check GitHub API remaining available requests?
