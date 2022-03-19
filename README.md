@@ -120,7 +120,7 @@ GitHub may for some reason keep some usernames that are not open for registratio
 ### How to check GitHub API remaining available requests?
 
 ````
-curl -i -u "$USER$TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/rate_limit
+curl -i -u "$USER:$TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/rate_limit
 ````
 
 [[7](#7)]
