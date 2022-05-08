@@ -21,7 +21,7 @@ There are two ways: First, register an account with any username, then get the A
 GitHub serves 5,000 requests per hour for users using the API [[1]](#1), which seems a bit low considering the short usernames that are still available from millions of usernames, but compared to only 60 requests per IP per hour without the API, that's a huge difference.
 
 
-I generated the 2-character dictionary and found some "available" usernames, but I found out that they were just reserved usernames, then I tried the 3-character dictionary again, this time I didn't intend to check all 3-characters, because I didn't want to wait too long, and all combinations were already well over the limit of 5000 per hour, I generated `easy-to-remember` dictionaries from all combinations, then I didn't find a username that worked for me, and finally I found my current username in a 4-character `easy-to-remember` dictionary.
+I generated the 2-character dictionary and found some "available" usernames, but I found out that they were just reserved usernames, then I tried the 3-character dictionary again, this time I didn't intend to check all 3-characters, because I didn't want to wait too long, and all combinations were already well over the limit of 5,000 per hour, I generated `easy-to-remember` dictionaries from all combinations, then I didn't find a username that worked for me, and finally I found my current username in a 4-character `easy-to-remember` dictionary.
 
 
 ## What can you do?
@@ -109,7 +109,7 @@ This will extract usernames that have the same letter repeated multiple times, l
 comm -23 ./dictionary.txt ./easy-to-remember.txt > ./easy-to-remember-excluded.txt
 ````
 
-[[6](#6)]
+[[6]](#6)
 
 
 ### Why are some checked out usernames unavailable?
@@ -123,7 +123,7 @@ GitHub may for some reason keep some usernames that are not open for registratio
 curl -i -u "$USER:$TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/rate_limit
 ````
 
-[[7](#7)]
+[[7]](#7)
 
 
 ### How to multithread?
@@ -142,7 +142,7 @@ It should work fine with [WSL](https://docs.microsoft.com/en-us/windows/wsl/inst
 
 2. In the Preferences window, verify the following:
 
-     - To view your GitHub username, click Accounts. [[8](#8)]
+     - To view your GitHub username, click Accounts. [[8]](#8)
 
 
 ### Is further support available?
