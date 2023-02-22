@@ -84,6 +84,9 @@ while [ -s "$DICTIONARY" ]; do
 	fi
 done
 rm -f "$DICTIONARY.backup"
+if [ ! -s "$DICTIONARY" ]; then
+	rm -f "$DICTIONARY"
+fi
 
 
 # Complete
