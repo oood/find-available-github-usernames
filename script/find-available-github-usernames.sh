@@ -23,6 +23,12 @@ fi
 
 TRYAGAIN="0"
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed=gsed # mac-os support
+else
+	sed=sed
+fi
+
 while [ -s "$DICTIONARY" ]; do
 	USERNAME="$(head -1 "$DICTIONARY")"
 
@@ -57,9 +63,9 @@ while [ -s "$DICTIONARY" ]; do
 		echo ""$(date '+%Y-%m-%d %H:%M:%S')" warn: too many failed attempts for $USERNAME" >> "./find-available-github-usernames.log"
 		echo "warn: too many failed attempts for $USERNAME"
 		TRYAGAIN="0"
-		sed -i '1d' "$DICTIONARY"
+		$sed -i '1d' "$DICTIONARY"
 	elif [ "$TRYAGAIN" -eq "0" ]; then
-		sed -i '1d' "$DICTIONARY"
+		$sed -i '1d' "$DICTIONARY"
 		TRYAGAIN="0"
 	fi
 done
