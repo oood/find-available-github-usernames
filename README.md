@@ -59,14 +59,6 @@ The first time the script is run, a backup file with a `.bak` suffix is generate
 
 ## FAQs
 
-### MacOS Support: 
-#### Why am I getting "sed: 1: "./../dictionaries/4-cha ...": invalid command code ?"
-> the default **sed** in macOS and unix are different.
-``` bash
-# install gnu-sed with brew to use the script on macos
-$ brew install gnu-sed
-```
-
 
 ### Dictionary file name meaning?
 
