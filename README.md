@@ -12,7 +12,7 @@ Because GitHub isn't exactly like social media, when you've built a lot of impor
 
 ## What did I do?
 
-GitHub allows everyone to check user pages, I initially wrote a [script](https://github.com/oood/find-available-github-usernames/tree/main/script) and created some dictionaries with character combinations to check all URLs `https://github.com/$username`. this worked fine at first, but unfortunately after a few minutes I triggered an `Error: 429 Too many requests`, so I started searching to see if there was a better way, and I found that GitHub provides an API [[1]](#1) that can be used to retrieve registered username and available username, but I don't have an account how can I get an API token?
+GitHub allows everyone to check user pages, I initially wrote a [script](https://github.com/oood/find-available-github-usernames/tree/rfc-3164/script) and created some dictionaries with character combinations to check all URLs `https://github.com/$username`. this worked fine at first, but unfortunately after a few minutes I triggered an `Error: 429 Too many requests`, so I started searching to see if there was a better way, and I found that GitHub provides an API [[1]](#1) that can be used to retrieve registered username and available username, but I don't have an account how can I get an API token?
 
 
 There are two ways: First, register an account with any username, then get the API token and then find the appropriate username and modify it. Or bypass the restriction with proxies :shipit:, which I know is rude, so I chose the first way.
@@ -51,10 +51,10 @@ The reason for deleting the lines in the dictionary is to ensure that the task c
 The first time the script is run, a backup file with a `.bak` suffix is generated for the dictionary.
 
 
-[Get dictionaries](https://github.com/oood/find-available-github-usernames/tree/main/dictionaries)
+[Get dictionaries](https://github.com/oood/find-available-github-usernames/tree/rfc-3164/dictionaries)
 
 
-[Get script](https://github.com/oood/find-available-github-usernames/tree/main/script)
+[Get script](https://github.com/oood/find-available-github-usernames/tree/rfc-3164/script)
 
 
 ## FAQs
