@@ -89,5 +89,4 @@ rm -f "$DICTIONARY.backup"
 # Complete
 echo "$(date '+%Y-%m-%d %H:%M:%S') exit: complete!" >> "./find-available-github-usernames.log"
 echo "complete!"
-if [ -s 
 exit 0
