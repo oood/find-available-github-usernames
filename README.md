@@ -31,15 +31,25 @@ Register GitHub, then click on your avatar in the upper right corner, enter `Set
 
 Next download or clone this repository, use the dictionary provided in the repository or generate your own, copy a dictionary and the script in the same directory, edit the script and fill in your current GitHub username and token, run the following command:
 
-````
-sh ./find-available-github-usernames.sh dictionary.txt
+````sh
+# sh ./find-available-github-usernames.sh <file.txt> <threads>
+sh ./find-available-github-usernames.sh dictionary.txt 10
 ````
 
-
+To get information about api limits:
+````sh
+sh ./find-available-github-usernames.sh --api
+````
+Response example:
+```sh
+> ./find-available-github-usernames.sh --api
+TOKEN is empty
+Limit: 60
+Used: 46
+Remaining: 14
+Reset time: 2024-10-21 20:11:20
+```
 **Notes:**
-
-
-The dictionary needs to be in the same directory as the script, and the dictionary does not need to add the path to the argument, just the file name.
 
 
 The working principle of the script is very simple, import the first line of the dictionary, check whether the username is available, if got `HTTP: 404`, add it to the `found.txt`, if encounter an error, print and output to the `find-available-github-usernames.log`, and finally delete all checked lines in the dictionary.
@@ -125,11 +135,6 @@ curl -i -u "$USER:$TOKEN" -H "Accept: application/vnd.github.v3+json" https://ap
 ````
 
 [[7]](#7)
-
-
-### How to multithread?
-
-Unfortunately, I have no development plans for this, but you can use `split -l 500 dictionary.txt` to truncate the dictionary file and run multiple terminals at the same time.
 
 
 ### Is it possible to use it under Windows?
