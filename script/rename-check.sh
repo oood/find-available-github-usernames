@@ -14,6 +14,11 @@
 USER="" # your_current_username
 TOKEN="" # your_api_token
 
+TOKEN_1=""
+TOKEN_2="" # updates if you are making a lot of requests
+TOKEN_3=""
+TOKEN_4="" # updates if you are making a lot of requests
+
 ################################Script Start################################
 
 # Function to display GitHub API rate limits
@@ -36,10 +41,10 @@ show_rate_limits() {
     echo "Remaining: $REMAINING"
     echo "Reset time: $RESET_TIME"
 
-    echo "$(date '+%Y-%m-%d %H:%M:%S') info: Limit: $LIMIT" >> "./find-available-github-usernames.log"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') info: Used: $USED" >> "./find-available-github-usernames.log"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') info: Remaining: $REMAINING" >> "./find-available-github-usernames.log"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') info: Reset time: $RESET_TIME" >> "./find-available-github-usernames.log"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') info: Limit: $LIMIT" >> "./check-rename.log"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') info: Used: $USED" >> "./check-rename.log"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') info: Remaining: $REMAINING" >> "./check-rename.log"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') info: Reset time: $RESET_TIME" >> "./check-rename.log"
 }
 
 if [[ "$1" == "--api" ]]; then
@@ -47,8 +52,8 @@ if [[ "$1" == "--api" ]]; then
     exit 0
 fi
 
-touch found.txt
-FOUND_BEFORE=$(wc -l < "found.txt")
+touch found_after_rename_check.txt
+FOUND_BEFORE=$(wc -l < "found_after_rename_check.txt")
 
 # Function to clean up temporary files and kill background processes on exit
 cleanup() {
@@ -57,7 +62,7 @@ cleanup() {
 
 
     PROCESSED_COUNT=$(<"$PROGRESS_FILE")
-    FOUND_NOW=$(wc -l < "found.txt")
+    FOUND_NOW=$(wc -l < "found_after_rename_check.txt")
     FOUND_DIFF=$((FOUND_NOW - FOUND_BEFORE))
     echo -e "Found usernames: $FOUND_DIFF"
     echo -e "Checked usernames: $PROCESSED_COUNT/$TOTAL_LINES"
@@ -70,8 +75,8 @@ cleanup() {
         fi
     done
 
-    sort "$DICTIONARY" -o "$DICTIONARY"    
-    sort "found.txt" -o "found.txt"
+    sort "$DICTIONARY" -o "$DICTIONARY"
+    sort "found_after_rename_check.txt" -o "found_after_rename_check.txt"
     rm -rf "$TEMP_DIR" progress.txt progress.txt.lock
     show_rate_limits
     exit 0
@@ -86,30 +91,30 @@ if [ -s "$1" ]; then
         hash "$program" >/dev/null 2>&1
         if [ "$?" -ge "1" ]; then
             echo "error: missing dependency $program, exited"
-            echo "$(date '+%Y-%m-%d %H:%M:%S') error: missing dependency $program, exited." >> "./find-available-github-usernames.log"
+            echo "$(date '+%Y-%m-%d %H:%M:%S') error: missing dependency $program, exited." >> "./check-rename.log"
             exit 1
         fi
     done
 
     if [ -z "$USER" ]; then
         echo "error: USER is not set"
-        echo "$(date '+%Y-%m-%d %H:%M:%S') error: USER is not set or empty" >> "./find-available-github-usernames.log"
+        echo "$(date '+%Y-%m-%d %H:%M:%S') error: USER is not set or empty" >> "./check-rename.log"
         exit 1
     fi
 
     if [ -z "$TOKEN" ]; then
         echo "error: TOKEN is not set"
-        echo "$(date '+%Y-%m-%d %H:%M:%S') error: TOKEN is not set" >> "./find-available-github-usernames.log"
+        echo "$(date '+%Y-%m-%d %H:%M:%S') error: TOKEN is not set" >> "./check-rename.log"
     fi
 
     show_rate_limits
     echo -e "\nStarting...\n"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') info: Starting..." >> "./find-available-github-usernames.log"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') info: Starting..." >> "./check-rename.log"
     cp "$1" "$1.bak"
     DICTIONARY="$(realpath "$1")"
 else
     echo "error: bad dictionary argument"
-    echo "$(date '+%Y-%m-%d %H:%M:%S') error: bad dictionary argument" >> "./find-available-github-usernames.log"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') error: bad dictionary argument" >> "./check-rename.log"
     exit 1
 fi
 
@@ -165,35 +170,34 @@ handle_username_check() {
 
     while [ -s "$TEMP_FILE" ]; do
         USERNAME="$(head -1 "$TEMP_FILE")"
+        RESPONSE=$(curl -s -X POST "https://github.com/account/rename_check?suggest_usernames=true" \
+          -H "Content-Type: multipart/form-data; boundary=----$TOKEN_2" \
+          -H "Cookie: _octo=$TOKEN_1; user_session=$TOKEN_3; __Host-user_session_same_site=$TOKEN_3" \
+          --data-raw $'------'$TOKEN_2$'\r\nContent-Disposition: form-data; name="suggest_usernames"\r\n\r\ntrue\r\n------'$TOKEN_2$'\r\nContent-Disposition: form-data; name="authenticity_token"\r\n\r\n'$TOKEN_4$'\r\n------'$TOKEN_2$'\r\nContent-Disposition: form-data; name="value"\r\n\r\n'$USERNAME$'\r\n------'$TOKEN_2$'--\r\n')
 
-        HTTPCODE=$(curl -fsi -u "$USER:$TOKEN" "https://api.github.com/users/${USERNAME}" -o /dev/null -w "%{http_code}")
-
-        if [ -n "$HTTPCODE" ] && [ "$HTTPCODE" -eq "404" ]; then
-            echo "thread $THREAD_ID: $USERNAME found!"
-            echo "$USERNAME" >> "./found.txt"
-        elif [ -n "$HTTPCODE" ] && [ "$HTTPCODE" -eq "000" ]; then
-            echo "$(date '+%Y-%m-%d %H:%M:%S') exit: no internet connection" >> "./find-available-github-usernames.log"
-            echo "thread $THREAD_ID: exit: no internet connection"
-            echo "thread $THREAD_ID: retrying in 5 seconds..."
-            sleep 2
-            continue
-        elif [ -n "$HTTPCODE" ] && [ "$HTTPCODE" != "200" ]; then
-            echo "$(date '+%Y-%m-%d %H:%M:%S') warn: $HTTPCODE for $USERNAME" >> "./find-available-github-usernames.log"
-            echo "thread $THREAD_ID: warn: $HTTPCODE for $USERNAME"
+        if echo "$RESPONSE" | grep -q "is available."; then
+            echo "thread $THREAD_ID: $USERNAME is available!"
+            echo "$USERNAME" >> "./found_after_rename_check.txt"
+        elif echo "$RESPONSE" | grep -q "must be different."; then
+            echo "thread $THREAD_ID: $USERNAME must be different."
+        elif echo "$RESPONSE" | grep -q "is not available."; then
+            echo "thread $THREAD_ID: $USERNAME is not available."
+        else
+            cleanup
+            echo "$(date '+%Y-%m-%d %H:%M:%S') warn: unknown response for $USERNAME" >> "./check-rename.log"
             TRYAGAIN="$((TRYAGAIN + 1))"
         fi
 
         if [ "$TRYAGAIN" -ge "1" ] && [ "$TRYAGAIN" -le "2" ]; then
-            echo "$(date '+%Y-%m-%d %H:%M:%S') warn: try again with $USERNAME" >> "./find-available-github-usernames.log"
+            echo "$(date '+%Y-%m-%d %H:%M:%S') warn: try again with $USERNAME" >> "./check-rename.log"
             echo "thread $THREAD_ID: warn: try again with $USERNAME"
             update_progress false
         elif [ "$TRYAGAIN" -gt "2" ]; then
-            echo "$(date '+%Y-%m-%d %H:%M:%S') warn: too many failed attempts for $USERNAME" >> "./find-available-github-usernames.log"
-            echo "thread $THREAD_ID: warn: too many failed attempts for $USERNAME"
+            echo "$(date '+%Y-%m-%d %H:%M:%S') warn: too many failed attempts for $USERNAME" >> "./check-rename.log"
             TRYAGAIN="0"
             sed -i "/$USERNAME/d" "$TEMP_FILE"
             update_progress true
-        elif [ "$TRYAGAIN" -eq "0" ]; then
+        else
             TRYAGAIN="0"
             sed -i "/$USERNAME/d" "$TEMP_FILE"
             update_progress true
@@ -212,6 +216,6 @@ done
 wait
 
 # Complete
-echo "$(date '+%Y-%m-%d %H:%M:%S') exit: complete!" >> "./find-available-github-usernames.log"
+echo "$(date '+%Y-%m-%d %H:%M:%S') exit: complete!" >> "./check-rename.log"
 echo -e "\ncomplete!"
 cleanup
